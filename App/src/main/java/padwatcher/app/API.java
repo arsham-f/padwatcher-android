@@ -38,6 +38,7 @@ public class API {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return null;
 
     }
 
@@ -47,7 +48,7 @@ public class API {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        return  null;
     }
 
 
