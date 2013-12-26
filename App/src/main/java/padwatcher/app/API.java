@@ -1,6 +1,7 @@
 package padwatcher.app;
 
-import org.json.JSONArray;
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,9 +10,10 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class API {
-    final static String baseURL = "http://padwatcher.com/";
+    final static String baseURL = "http://padwatcher.com/scripts/";
 
     public static String GET(String surl) {
         StringBuilder sb = new StringBuilder();
@@ -24,17 +26,27 @@ public class API {
                 sb.append(line);
             }
         } catch (Exception e) {
+            Log.e("HEYHEY", "failed", e);
             e.printStackTrace();
         }
         return sb.toString();
     }
 
     public static ArrayList<Location> getLocations() {
+        ArrayList<Location> builder = new ArrayList<Location>();
         try {
-            JSONArray locations = new JSONArray(GET("locations.php"));
-            for (int i = 0; i < locations.length(); i++){
-                //
+            JSONObject locations = new JSONObject(GET("locations.php"));
+
+            Iterator it = locations.keys();
+            while (it.hasNext()) {
+                String id = (String)it.next();
+                JSONObject this_location = new JSONObject(locations.getString(id));
+                String name = this_location.getString("name");
+                try {
+                    builder.add(new Location(name, Integer.parseInt(id)));
+                } catch (NumberFormatException e) {}
             }
+            return builder;
         } catch (JSONException e) {
             e.printStackTrace();
         }

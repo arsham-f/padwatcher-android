@@ -1,11 +1,14 @@
 package padwatcher.app;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class LocationSelectActivity extends ActionBarActivity {
 
@@ -15,24 +18,19 @@ public class LocationSelectActivity extends ActionBarActivity {
         setContentView(R.layout.activity_location_select);
         ListView locations = (ListView)findViewById(R.id.locations);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.location_list_item);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.location_list_item);
         locations.setAdapter(adapter);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                API.GET("/locations.php");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                });
+        getLocationsThread locationsThread = new getLocationsThread();
+        try {
+            ArrayList<Location> locationlist = locationsThread.execute().get();
+            for (int i = 0; i < locationlist.size(); i++) {
+                adapter.add(locationlist.get(i).name);
             }
-        });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         adapter.setNotifyOnChange(true);
-        adapter.add("Toronto & GTA");
-        adapter.add("Ottawa");
-        adapter.add("Kitchener/Waterloo");
     }
 
 
@@ -54,6 +52,14 @@ public class LocationSelectActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public class getLocationsThread extends AsyncTask<Void, Void, ArrayList<Location>>{
+
+        @Override
+        protected ArrayList<Location> doInBackground(Void... params) {
+            return API.getLocations();
+        }
     }
 
 }
