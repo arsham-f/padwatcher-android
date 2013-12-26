@@ -1,17 +1,21 @@
 package padwatcher.app;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 public class LocationSelectActivity extends ActionBarActivity {
-
+    public ArrayList<Location> locationlist = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,17 +24,30 @@ public class LocationSelectActivity extends ActionBarActivity {
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.location_list_item);
         locations.setAdapter(adapter);
-
+        adapter.setNotifyOnChange(true);
         getLocationsThread locationsThread = new getLocationsThread();
+
+
         try {
-            ArrayList<Location> locationlist = locationsThread.execute().get();
+            locationlist = locationsThread.execute().get();
             for (int i = 0; i < locationlist.size(); i++) {
                 adapter.add(locationlist.get(i).name);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        adapter.setNotifyOnChange(true);
+        final Activity thisActivity = this;
+
+        locations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Location selected = locationlist.get(position);
+                Intent overviewIntent = new Intent(thisActivity, OverviewActivity.class);
+                overviewIntent.putExtra("location_name", selected.name);
+                overviewIntent.putExtra("location_id", selected.id);
+                startActivity(overviewIntent);
+            }
+        });
     }
 
 
