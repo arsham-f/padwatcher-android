@@ -2,12 +2,12 @@ package padwatcher.app;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,13 +54,27 @@ public class API {
 
     }
 
-    public static Array parseJSON(String str) {
+    public static ArrayList<Listing> getListings(int id) {
+        ArrayList<Listing> listings = new ArrayList<Listing>();
+
         try {
-            JSONObject jso = new JSONObject(str);
+            String response = GET("location_listings.php?id=" + Integer.toString(id));
+            JSONArray listingsJson = new JSONArray(response);
+
+            for (int i = 0; i < listingsJson.length(); i++) {
+                JSONObject listingObject = listingsJson.getJSONObject(i);
+
+                String title = listingObject.getString("title");
+                String url = listingObject.getString("url");
+                String price = listingObject.getString("price");
+                listings.add(new Listing(title, url, price));
+            }
+
+            return listings;
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return  null;
+        return null;
     }
 
 
