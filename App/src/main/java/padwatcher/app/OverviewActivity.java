@@ -17,6 +17,8 @@ public class OverviewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
+
+        this.overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         Intent intent = getIntent();
 
         TextView locationName = (TextView)findViewById(R.id.locationName);
