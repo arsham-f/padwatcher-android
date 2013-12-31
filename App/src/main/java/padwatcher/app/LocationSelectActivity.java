@@ -42,7 +42,7 @@ public class LocationSelectActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Location selected = locationlist.get(position);
-                Intent overviewIntent = new Intent(thisActivity, OverviewActivity.class);
+                Intent overviewIntent = new Intent(thisActivity, LocationOverviewActivity.class);
                 overviewIntent.putExtra("location_name", selected.name);
                 overviewIntent.putExtra("location_id", selected.id);
                 startActivity(overviewIntent);

@@ -1,0 +1,37 @@
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/locationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:fontFamily="sans-serif"
+        android:text="Toronto and GTA"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/changeLocationLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="#03abe2"
+        android:text="change location"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="sans-serif-light"
+        android:layout_below="@id/locationName"/>
+
+    <ListView
+        android:id="@+id/listingsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#282828"
+        android:layout_below="@id/changeLocationLink" >
+
+        </ListView>
+
+</RelativeLayout>

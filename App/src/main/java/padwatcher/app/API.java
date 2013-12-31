@@ -63,11 +63,7 @@ public class API {
 
             for (int i = 0; i < listingsJson.length(); i++) {
                 JSONObject listingObject = listingsJson.getJSONObject(i);
-
-                String title = listingObject.getString("title");
-                String url = listingObject.getString("url");
-                String price = listingObject.getString("price");
-                listings.add(new Listing(title, url, price));
+                listings.add(new Listing(listingObject));
             }
 
             return listings;
