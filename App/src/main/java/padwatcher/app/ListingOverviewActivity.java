@@ -20,6 +20,9 @@ public class ListingOverviewActivity extends ActionBarActivity {
         setContentView(R.layout.activity_listing_overview);
         TextView title = (TextView)findViewById(R.id.title);
         TextView description = (TextView)findViewById(R.id.description);
+        TextView cityName = (TextView)findViewById(R.id.cityName);
+        cityName.setText(getIntent().getStringExtra("cityName"));
+
 
         title.setText(listing.displayTitle);
         description.setText(listing.description);

@@ -20,7 +20,7 @@ public class LocationOverviewActivity extends Activity {
         setContentView(R.layout.activity_location_overview);
 
         this.overridePendingTransition(R.anim.right_to_stage, R.anim.stage_to_left);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
 
         TextView locationName = (TextView)findViewById(R.id.locationName);
         TextView changeLocationLink = (TextView)findViewById(R.id.changeLocationLink);
@@ -48,6 +48,7 @@ public class LocationOverviewActivity extends Activity {
                     Listing selectedListing = listings.get(position);
                     Intent listingOverview = new Intent(LocationOverviewActivity.this, ListingOverviewActivity.class);
                     listingOverview.putExtra("listingJsonString", selectedListing.JsonObject.toString());
+                    listingOverview.putExtra("cityName", intent.getStringExtra("location_name"));
                     startActivity(listingOverview);
                     overridePendingTransition(R.anim.right_to_stage, R.anim.stage_to_left);
 
